@@ -1,0 +1,39 @@
+server.port: 8000
+
+feign:
+  hystrix:
+    enabled: true
+  client:
+    config:
+      default:  # 服务名，default表示所有服务
+        connectTimeout: 10000
+        readTimeout: 60000
+        loggerLevel: full  # full | basic | none | headers
+        #requestInterceptors: 拦截器
+
+spring:
+  data:
+    mongodb:
+      database: auth
+
+# custom config
+swagger2.package: com.ftibw.demo.auth.controller
+
+config:
+  oauth2:
+    # openssl rsa -in jwtRS256.key -pubout -outform PEM -out jwtRS256.key.pub
+    publicKey: |
+      -----BEGIN PUBLIC KEY-----
+      MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEA0RbbUy12CH3ZvsD8sIKu
+      nu2Chi5o/5e3ejUFhHV6gaoHHMB0U6Da9VbCePuvJ8/6pd112Yl8dxUZRvgU928h
+      6BF9FIU6WCM70EQQoYkMyaBXXabyTTY2aHMoivBe/YZ02QQCdSYQ7i5oRJHUEjMI
+      tW2Vz1ayH9OxbGU9ykJCYClCg33841+RmPVVbxj0hDRmqHeCcXIMDMgUK3PLpDac
+      T4ET4eFHJn+svKVFEK4M80aZ46lm+8JmPycikvVUi7PCwPDjazFLPxFIfw9/tYnV
+      ki3JcLWSX3vl5tXDAe9aFfZTx35CETb3vKsXOZ4U9shmk3SROQXGoOiWJ8ArqmwQ
+      TFlqD0POrkcTuYfuBoj3X71nxoyIqtw0xEgosXUnDYKT8sn0Lcmekn8SpBnlN6ym
+      rdffhclEdFh0yLSMmr/uIbVWtGAoT7xwVk3f4MRmBPVzXEaFfOwka3IRe0bahAl4
+      mZoBd8cIC7ce4H055ld3YFbwAJTG6kY+4AJldxPhe1+hP5jUrynHw+18wlqqlcGw
+      XcdBYvYXqWmG0YNqvub6KFI5bn5O2dljFYl1rrCkWnaRh45QLi8bk0NI3b5ZZWQt
+      K6f3dScQ/tB0IrsMsYjsGnH+81+xW3YbJM+CuuhjHvHf9A7gj4Qos4PpN3u/3e2Y
+      e6bhgxc9QdeVcwEMMR0ORK0CAwEAAQ==
+      -----END PUBLIC KEY-----

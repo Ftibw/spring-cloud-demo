@@ -1,0 +1,41 @@
+server:
+  port: 9000
+spring:
+  application:
+    name: config-server
+  profiles:
+    active: native
+  cloud:
+    config:
+      server:
+        bootstrap: true
+        native:
+          search-locations: file:@basedir@/../conf
+#       git:
+#         uri: ${git-uri}
+#         username: ${git-uname}
+#         password: ${git-upsw}
+#         default-label: cloud-demo
+#         search-paths: conf
+    bus:
+      trace:
+        enabled: true
+  rabbitmq:
+    host: 192.168.1.80
+    username: admin
+    password: admin
+    #port: 5672(default)
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8600/eureka/
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: bus-refresh
+
+# for debug
+logging.level.org.springframework.web: DEBUG
+spring.http.log-request-details: true

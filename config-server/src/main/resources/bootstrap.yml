@@ -1,0 +1,2 @@
+# bootstrap.yml中必须加引号,其他文件无需加
+logging.path: "@basedir@/../log"

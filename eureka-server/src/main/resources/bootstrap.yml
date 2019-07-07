@@ -1,0 +1,37 @@
+spring.application.name: eureka-server
+spring.profiles.active: single
+
+logging.path: "@basedir@/../log"
+
+---
+spring.profiles: single
+server.port: 8600
+
+eureka:
+  instance.hostname: localhost
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+    service-url.defaultZone: http://localhost:8600/eureka/
+
+---
+spring.profiles: node1
+server.port: 8700
+
+eureka:
+  instance.hostname: localhost
+  client.service-url.defaultZone: http://localhost:8800/eureka/,http://localhost:8900/eureka/
+---
+spring.profiles: node2
+server.port: 8800
+
+eureka:
+  instance.hostname: localhost
+  client.service-url.defaultZone: http://localhost:8700/eureka/,http://localhost:8900/eureka/
+---
+spring.profiles: node3
+server.port: 8900
+
+eureka:
+  instance.hostname: localhost
+  client.service-url.defaultZone: http://localhost:8700/eureka/,http://localhost:8800/eureka/

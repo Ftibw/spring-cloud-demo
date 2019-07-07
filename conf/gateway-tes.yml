@@ -1,0 +1,82 @@
+server.port: 8100
+
+feign:
+  hystrix:
+    enabled: true
+  client:
+    config:
+      default:  # 服务名，default表示所有服务
+        connectTimeout: 10000
+        readTimeout: 60000
+        loggerLevel: full  # full | basic | none | headers
+        #requestInterceptors: 拦截器
+
+# custom config
+auth-server: http://localhost:8000
+
+spring:
+  resources:
+    static-locations: file:C:/Users/ftibw/Desktop/oauth2-test/
+  security:
+    oauth2:
+      client:
+        registration:
+          # auth registrationId
+          q-media:
+            client-id: q-media
+            client-secret: q-media
+            authorization-grant-type: authorization_code
+            # redirect-uri-template(@Deprecated)
+            redirect-uri: '{baseUrl}/login/oauth2/code/{registrationId}'
+            scope: all
+            client-name: Q-Media
+          # client-authentication-method: basic # 默认值就是basic
+          # provider: q-media  # 指定一个 providerId ,不设置时取自己的 registrationId
+          github:
+            client-id: ${git-client-id}
+            client-secret: ${git-client-secret}
+        provider:
+          # auth providerId
+          q-media:
+            authorization-uri: ${auth-server}/oauth/authorize
+            token-uri: ${auth-server}/oauth/token
+            user-info-uri: ${auth-server}/api/user
+            #optional you can also provide public key as property value in this application.yml
+            #but in this case you should override ReactiveJwtDecoder injection in JwtConfiguration.class
+            jwk-set-uri: ${auth-server}/oauth/token_key
+            user-name-attribute: id
+  cloud:
+    gateway:
+      # 使用eureka中的service-id进行自动路由转发
+      #discovery:
+      #  locator:
+      #    enabled: true
+      #    lower-case-service-id: true
+      routes:
+      - id: user-service
+        predicates:
+        - Path=/user/**
+        uri: lb://user-service
+        filters:
+        - PreOauth2SSOGatewayFilter
+
+#      - id: microservice2
+#        predicates:
+#        - Path=/updates/**
+#        uri: "http://microservice2:8011"
+#        filters:
+#        - PreOauth2SSOGatewayFilter
+#
+#      - id: microservice2-ws-soсkjs
+#        predicates:
+#        - Path=/updates/events/info/**
+#        uri: "http://localhost:8011"
+#        filters:
+#        - PreOauth2SSOGatewayFilter
+#
+#      - id: microservice3-ws
+#        predicates:
+#        - Path=/updates/events/info/**
+#        uri: "ws://microservice3:8021"
+#        filters:
+#        - PreOauth2SSOGatewayFilter

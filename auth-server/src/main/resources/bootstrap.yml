@@ -1,0 +1,40 @@
+spring:
+  profiles:
+    active: private  #先读取此处激活的profile中的配置,再读取当前文件配置
+  application:
+    name: auth-server
+  # 配置中心
+  cloud:
+    config:
+      fail-fast: true
+      discovery:
+        enabled: true
+        service-id: config-server #取代 spring.cloud.config.uri
+      profile: tes
+      #配置文件名称 : ${spring.application.name}-${spring.cloud.config.profile}.yml
+      #这里就是 : auth-server-tes.yml
+    bus:
+      trace:
+        enabled: true
+  rabbitmq:
+    host: 192.168.1.80
+    username: admin
+    password: admin
+
+# 服务发现
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8600/eureka/
+# 端点监控
+management:
+  endpoints:
+    web:
+      exposure:
+        include: bus-refresh
+
+# bootstrap.yml中必须加引号,其他文件无需加
+logging.path: "@basedir@/../log"
+# for debug
+logging.level.org.springframework.web: DEBUG
+spring.http.log-request-details: true

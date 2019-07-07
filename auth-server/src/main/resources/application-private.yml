@@ -1,0 +1,15 @@
+# custom config
+config:
+  oauth2:
+    # ssh-keygen -t rsa -b 4096 -f jwtRS256.key
+    privateKey: |
+      -----BEGIN RSA PRIVATE KEY-----
+      xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+      -----END RSA PRIVATE KEY-----
+
+    # .pem for public
+    # openssl genrsa -out jwt.pem 2048
+    # openssl rsa -in jwt.pem
+
+    # .pem for private
+    # openssl rsa -in jwt.pem -pubout

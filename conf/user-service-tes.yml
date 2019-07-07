@@ -1,0 +1,25 @@
+server.port: 9100
+
+feign:
+  hystrix:
+    enabled: true
+  client:
+    config:
+      default:  # 服务名，default表示所有服务
+        connectTimeout: 10000
+        readTimeout: 60000
+        loggerLevel: full  # full | basic | none | headers
+        #requestInterceptors: 拦截器
+
+server:
+  servlet:
+    context-path: /user
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://localhost:8000/oauth/token_key
+
+# custom config below
+foo: 'foo'
